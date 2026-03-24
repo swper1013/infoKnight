@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTransition } from "react";
 import { useStudy } from "@/components/study-provider";
+import { getBlockHref } from "@/lib/block-links";
 import { formatDateKey, formatStageLabel } from "@/lib/study";
 
 export function TodayPlanView() {
@@ -76,15 +77,17 @@ export function TodayPlanView() {
                     >
                       ✓
                     </button>
-                    <div>
+                    <Link href={getBlockHref(block)} className="block">
                       <p className="text-xs font-semibold tracking-[0.18em] text-slate-400 uppercase">
                         Block {index + 1}
                       </p>
-                      <h3 className="mt-1 text-xl font-bold">{block.title}</h3>
+                      <h3 className="mt-1 text-xl font-bold transition hover:text-emerald-700">
+                        {block.title}
+                      </h3>
                       <p className="mt-2 text-sm leading-6 text-slate-600">
                         {block.description}
                       </p>
-                    </div>
+                    </Link>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="rounded-full bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-700">
