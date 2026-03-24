@@ -3,16 +3,23 @@
 import Link from "next/link";
 import researchSummary from "@/data/research-summary.json";
 import { useStudy } from "@/components/study-provider";
-import { formatQuestionTypeLabel, formatStageLabel } from "@/lib/study";
+import { changelogEntries } from "@/lib/app-meta";
+import {
+  DEFAULT_EXAM_DATE,
+  formatDateLabel,
+  formatQuestionTypeLabel,
+  formatStageLabel,
+} from "@/lib/study";
 
 export function DashboardView() {
-  const { hydrated, questions, stats } = useStudy();
+  const { examDate, hydrated, questions, setExamDate, stats } = useStudy();
 
   if (!hydrated) {
     return <LoadingCard label="학습 기록을 불러오는 중입니다." />;
   }
 
   const todayPreview = stats.todayPlan.slice(0, 3);
+  const recentUpdates = changelogEntries.slice(0, 3);
 
   return (
     <div className="page-grid">
@@ -35,6 +42,7 @@ export function DashboardView() {
                 <Badge label={`오늘 공부 시간 ${stats.dailyMinutes}분`} />
                 <Badge label={`${formatStageLabel(stats.stage)} 구간`} />
                 <Badge label={`문제 ${questions.length}개`} />
+                <Badge label={`오늘 다시 볼 오답 ${stats.dueReviewCount}문제`} />
               </div>
             </div>
             <Link
@@ -43,6 +51,32 @@ export function DashboardView() {
             >
               오늘 공부 시작
             </Link>
+          </div>
+
+          <div className="mt-6 rounded-[24px] border border-slate-200 bg-white/80 p-4 sm:p-5">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-slate-500">시험일 설정</p>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  현재 기준일은 {formatDateLabel(examDate)}입니다. 날짜를 바꾸면 D-day와 오늘 계획이 바로 다시 계산됩니다.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <input
+                  type="date"
+                  value={examDate}
+                  onChange={(event) => setExamDate(event.target.value)}
+                  className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 outline-none transition focus:border-emerald-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => setExamDate(DEFAULT_EXAM_DATE)}
+                  className="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                >
+                  기본값으로 복원
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -69,9 +103,9 @@ export function DashboardView() {
             note={`${stats.todayPlan.reduce((sum, block) => sum + block.minutes, 0)}분 구성`}
           />
           <StatCard
-            label="오답노트 대상"
-            value={`${stats.wrongQuestions.length}문제`}
-            note="틀렸던 문제는 자동 누적"
+            label="복습 대기 오답"
+            value={`${stats.dueReviewCount}문제`}
+            note="틀린 뒤 3일 복습 규칙으로 자동 집계"
           />
         </div>
 
@@ -80,7 +114,7 @@ export function DashboardView() {
             <div>
               <h3 className="text-xl font-bold">오늘 할 일 미리보기</h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                D-day와 최근 오답 기록을 반영해 120분 안에서 바로 시작할 수 있게 나눴습니다.
+                D-day와 최근 오답 기록, 복습 예정 오답을 반영해 120분 안에서 바로 시작할 수 있게 나눴습니다.
               </p>
             </div>
             <Link
@@ -98,7 +132,7 @@ export function DashboardView() {
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold tracking-[0.18em] text-slate-400 uppercase">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                       Block {index + 1}
                     </p>
                     <h4 className="mt-1 text-lg font-semibold">{block.title}</h4>
@@ -149,17 +183,37 @@ export function DashboardView() {
         </div>
 
         <div className="card-surface rounded-[28px] p-6">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-lg font-bold">최근 업데이트</h3>
+            <Link href="/updates" className="text-sm font-semibold text-emerald-700 hover:text-emerald-800">
+              전체 로그
+            </Link>
+          </div>
+          <div className="mt-4 space-y-3">
+            {recentUpdates.map((entry) => (
+              <div key={entry.version} className="rounded-2xl bg-white/75 px-4 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-semibold text-slate-900">{entry.version}</p>
+                  <p className="text-xs text-slate-500">{entry.date}</p>
+                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{entry.summary}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="card-surface rounded-[28px] p-6">
           <h3 className="text-lg font-bold">추천 다음 행동</h3>
           <div className="mt-4 space-y-3">
             <ActionLink
               href="/practice"
-              title="문제 먼저 풀기"
-              description="오답이 많은 문제부터 추천 순서로 풀이"
+              title="랜덤/오답/취약 파트 풀기"
+              description="풀이 모드를 바꿔 오늘 상태에 맞는 세트로 바로 학습"
             />
             <ActionLink
               href="/wrong-note"
               title="오답노트 집중"
-              description={`현재 ${stats.wrongQuestions.length}문제를 다시 볼 수 있습니다.`}
+              description={`현재 ${stats.wrongQuestions.length}문제, 복습 예정 ${stats.dueReviewCount}문제를 다시 볼 수 있습니다.`}
             />
           </div>
         </div>

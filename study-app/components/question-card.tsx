@@ -28,6 +28,7 @@ export function QuestionCard({
         correctCount: 0,
         wrongCount: 0,
         lastSolvedAt: null,
+        nextReviewAt: null,
       };
     }
 
@@ -56,6 +57,11 @@ export function QuestionCard({
             {stats.lastSolvedAt ? (
               <p className="mt-1 text-xs text-slate-400">
                 최근 풀이 {formatDateTimeLabel(stats.lastSolvedAt)}
+              </p>
+            ) : null}
+            {stats.nextReviewAt ? (
+              <p className="mt-1 text-xs text-amber-300">
+                다음 복습 {formatDateTimeLabel(stats.nextReviewAt)}
               </p>
             ) : null}
           </div>
@@ -129,6 +135,42 @@ export function QuestionCard({
               </div>
             ))}
           </div>
+
+          {resource.studyNote.exampleBody ? (
+            <div className="mt-5 rounded-[24px] border border-emerald-100 bg-emerald-50/70 px-5 py-4">
+              <p className="text-sm font-semibold text-emerald-800">
+                {resource.studyNote.exampleTitle}
+              </p>
+              <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+                {resource.studyNote.exampleBody}
+              </p>
+            </div>
+          ) : null}
+
+          {resource.studyNote.comparisonRows?.length ? (
+            <div className="mt-5 rounded-[24px] border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+              <p className="text-sm font-semibold text-slate-800">
+                {resource.studyNote.comparisonTitle}
+              </p>
+              <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,0.9fr)_minmax(0,1.2fr)] bg-slate-100 text-xs font-semibold text-slate-600 sm:text-sm">
+                  <p className="px-4 py-3">왼쪽 개념</p>
+                  <p className="px-4 py-3">오른쪽 개념</p>
+                  <p className="px-4 py-3">핵심 차이</p>
+                </div>
+                {resource.studyNote.comparisonRows.map((row) => (
+                  <div
+                    key={`${row.left}-${row.right}`}
+                    className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,0.9fr)_minmax(0,1.2fr)] border-t border-slate-200 text-xs text-slate-700 sm:text-sm"
+                  >
+                    <p className="px-4 py-3 font-semibold text-slate-900">{row.left}</p>
+                    <p className="px-4 py-3 font-semibold text-slate-900">{row.right}</p>
+                    <p className="px-4 py-3 leading-6">{row.point}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           <div className="mt-5 rounded-[24px] border border-amber-100 bg-amber-50/80 px-5 py-4">
             <p className="text-sm font-semibold text-amber-800">시험장 팁</p>

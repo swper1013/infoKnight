@@ -33,6 +33,7 @@ const defaultState: StudyState = {
 };
 
 const StudyContext = createContext<StudyContextValue | null>(null);
+
 export function StudyProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<StudyState>(() => {
     if (typeof window === "undefined") {
@@ -92,6 +93,7 @@ export function StudyProvider({ children }: { children: React.ReactNode }) {
 
     return {
       hydrated,
+      examDate: state.examDate,
       questions,
       questionProgress: state.questionProgress,
       completedBlockIds: state.planCompletionByDate[todayKey] ?? [],
@@ -121,7 +123,13 @@ export function StudyProvider({ children }: { children: React.ReactNode }) {
         setState((current) => {
           const currentProgress =
             current.questionProgress[questionId] ?? createEmptyProgress();
-          const now = new Date().toISOString();
+          const now = new Date();
+          const nextReviewAt =
+            result === "wrong"
+              ? addDays(now, 3).toISOString()
+              : currentProgress.wrongCount > 0
+                ? null
+                : currentProgress.nextReviewAt;
 
           const nextProgress: QuestionProgress = {
             correctCount:
@@ -133,7 +141,8 @@ export function StudyProvider({ children }: { children: React.ReactNode }) {
                 ? currentProgress.wrongCount + 1
                 : currentProgress.wrongCount,
             lastResult: result,
-            lastSolvedAt: now,
+            lastSolvedAt: now.toISOString(),
+            nextReviewAt,
           };
 
           return {
@@ -144,7 +153,7 @@ export function StudyProvider({ children }: { children: React.ReactNode }) {
             },
             attemptLog: [
               ...current.attemptLog,
-              { questionId, result, solvedAt: now },
+              { questionId, result, solvedAt: now.toISOString() },
             ],
           };
         });
@@ -152,7 +161,7 @@ export function StudyProvider({ children }: { children: React.ReactNode }) {
       setExamDate: (examDate) => {
         setState((current) => ({
           ...current,
-          examDate,
+          examDate: examDate || DEFAULT_EXAM_DATE,
         }));
       },
     };
@@ -177,14 +186,35 @@ function createEmptyProgress(): QuestionProgress {
     wrongCount: 0,
     lastResult: null,
     lastSolvedAt: null,
+    nextReviewAt: null,
   };
 }
 
 function mergeState(input: Partial<StudyState>): StudyState {
+  const nextQuestionProgress = Object.fromEntries(
+    Object.entries(input.questionProgress ?? {}).map(([questionId, progress]) => [
+      questionId,
+      {
+        correctCount: progress.correctCount ?? 0,
+        wrongCount: progress.wrongCount ?? 0,
+        lastResult: progress.lastResult ?? null,
+        lastSolvedAt: progress.lastSolvedAt ?? null,
+        nextReviewAt: progress.nextReviewAt ?? null,
+      },
+    ]),
+  );
+
   return {
     examDate: input.examDate ?? DEFAULT_EXAM_DATE,
     planCompletionByDate: input.planCompletionByDate ?? {},
-    questionProgress: input.questionProgress ?? {},
+    questionProgress: nextQuestionProgress,
     attemptLog: input.attemptLog ?? [],
   };
 }
+
+function addDays(date: Date, amount: number) {
+  const next = new Date(date);
+  next.setDate(next.getDate() + amount);
+  return next;
+}
+

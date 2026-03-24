@@ -20,12 +20,22 @@ export interface StudyLink {
   url: string;
 }
 
+export interface StudyComparisonRow {
+  left: string;
+  right: string;
+  point: string;
+}
+
 export interface StudyNote {
   title: string;
   subtitle: string;
   summary: string;
   bullets: string[];
   examTip: string;
+  exampleTitle?: string;
+  exampleBody?: string;
+  comparisonTitle?: string;
+  comparisonRows?: StudyComparisonRow[];
 }
 
 export interface QuestionResource {
@@ -46,6 +56,7 @@ export interface QuestionProgress {
   wrongCount: number;
   lastResult: StudyResult | null;
   lastSolvedAt: string | null;
+  nextReviewAt: string | null;
 }
 
 export interface AttemptLogItem {
@@ -68,6 +79,7 @@ export interface StudyStats {
   dailyMinutes: number;
   totalSolvedCount: number;
   totalWrongCount: number;
+  dueReviewCount: number;
   weakTopics: string[];
   wrongQuestions: StudyQuestion[];
   todayPlan: StudyBlock[];
@@ -77,6 +89,7 @@ export interface StudyStats {
 
 export interface StudyContextValue {
   hydrated: boolean;
+  examDate: string;
   questions: StudyQuestion[];
   questionProgress: Record<string, QuestionProgress>;
   completedBlockIds: string[];

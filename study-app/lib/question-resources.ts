@@ -1,4 +1,10 @@
-import type { QuestionResource, StudyLink, StudyNote, StudyQuestion } from "@/lib/types";
+import type {
+  QuestionResource,
+  StudyComparisonRow,
+  StudyLink,
+  StudyNote,
+  StudyQuestion,
+} from "@/lib/types";
 
 const oracleSqlLinks: StudyLink[] = [
   { label: "Oracle SQL Aggregate Functions", url: "https://docs.oracle.com/html/E10592_02/functions003.htm" },
@@ -15,38 +21,121 @@ const conceptLinks: StudyLink[] = [
   { label: "Red Hat CI/CD Guide", url: "https://www.redhat.com/en/topics/devops/what-is-ci-cd" },
 ];
 
-function createNote(note: StudyNote): StudyNote {
-  return note;
+type NoteDefaults = {
+  exampleBody: string;
+  comparisonRows: StudyComparisonRow[];
+};
+
+function createNote(note: StudyNote, defaults: NoteDefaults): StudyNote {
+  return {
+    ...note,
+    exampleTitle: note.exampleTitle ?? "짧은 예시",
+    exampleBody: note.exampleBody ?? defaults.exampleBody,
+    comparisonTitle: note.comparisonTitle ?? "헷갈리는 비교",
+    comparisonRows: note.comparisonRows ?? defaults.comparisonRows,
+  };
 }
 
-function sqlNote(title: string, subtitle: string, summary: string, bullets: string[], examTip: string): StudyNote {
-  return createNote({
-    title,
-    subtitle,
-    summary,
-    bullets,
-    examTip,
-  });
+function sqlNote(
+  title: string,
+  subtitle: string,
+  summary: string,
+  bullets: string[],
+  examTip: string,
+): StudyNote {
+  return createNote(
+    {
+      title,
+      subtitle,
+      summary,
+      bullets,
+      examTip,
+    },
+    {
+      exampleBody:
+        "예: 집계 결과가 3개 이상인 부서를 찾는다면 GROUP BY로 부서를 묶고, COUNT 결과 조건은 WHERE가 아니라 HAVING에 둡니다.",
+      comparisonRows: [
+        {
+          left: "WHERE",
+          right: "HAVING",
+          point: "원본 행 조건인지, 집계 결과 조건인지로 구분합니다.",
+        },
+        {
+          left: "COMMIT",
+          right: "ROLLBACK",
+          point: "변경 확정인지 취소인지로 기억하면 됩니다.",
+        },
+      ],
+    },
+  );
 }
 
-function javaNote(title: string, subtitle: string, summary: string, bullets: string[], examTip: string): StudyNote {
-  return createNote({
-    title,
-    subtitle,
-    summary,
-    bullets,
-    examTip,
-  });
+function javaNote(
+  title: string,
+  subtitle: string,
+  summary: string,
+  bullets: string[],
+  examTip: string,
+): StudyNote {
+  return createNote(
+    {
+      title,
+      subtitle,
+      summary,
+      bullets,
+      examTip,
+    },
+    {
+      exampleBody:
+        "예: Parent obj = new Child()에서 obj.method()를 호출하면 인스턴스 메서드는 Child 쪽 오버라이딩 메서드가 실행됩니다.",
+      comparisonRows: [
+        {
+          left: "오버라이딩",
+          right: "static hiding",
+          point: "인스턴스 메서드 재정의인지, 클래스 메서드 숨김인지가 다릅니다.",
+        },
+        {
+          left: "checked exception",
+          right: "unchecked exception",
+          point: "컴파일 단계 처리 강제 여부로 구분합니다.",
+        },
+      ],
+    },
+  );
 }
 
-function conceptNote(title: string, subtitle: string, summary: string, bullets: string[], examTip: string): StudyNote {
-  return createNote({
-    title,
-    subtitle,
-    summary,
-    bullets,
-    examTip,
-  });
+function conceptNote(
+  title: string,
+  subtitle: string,
+  summary: string,
+  bullets: string[],
+  examTip: string,
+): StudyNote {
+  return createNote(
+    {
+      title,
+      subtitle,
+      summary,
+      bullets,
+      examTip,
+    },
+    {
+      exampleBody:
+        "예: 회귀 테스트는 기능 수정 후 기존 로그인이나 조회 기능이 여전히 정상인지 다시 확인하는 상황에 해당합니다.",
+      comparisonRows: [
+        {
+          left: "정의",
+          right: "목적",
+          point: "무엇인지와 왜 쓰는지를 분리해 두면 서술형에 강합니다.",
+        },
+        {
+          left: "동등 분할",
+          right: "경계값 분석",
+          point: "대표 구간을 고르는지, 경계 근처를 집중 확인하는지 차이를 기억합니다.",
+        },
+      ],
+    },
+  );
 }
 
 export function getQuestionResource(question: StudyQuestion): QuestionResource {
@@ -226,7 +315,7 @@ export function getQuestionResource(question: StudyQuestion): QuestionResource {
             "checked exception은 컴파일 단계에서 처리 강제가 있고, unchecked exception은 런타임 중심으로 다뤄집니다. 둘의 성격도 함께 정리해 두면 좋습니다.",
             "실기에서는 예외 발생 지점, finally 실행 여부, return과 함께 썼을 때의 흐름을 묻는 문제도 자주 나옵니다.",
           ],
-          "예외 문제를 풀 때는 try에서 어디서 예외가 터지는지 줄 번호처럼 적어 보세요.",
+          "예외 문제를 풀 때는 try에서 어디서 끊기는지 줄 번호처럼 적어 보세요.",
         ),
         links: oracleJavaLinks,
       };
