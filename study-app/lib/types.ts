@@ -20,8 +20,17 @@ export interface StudyLink {
   url: string;
 }
 
+export interface StudyNote {
+  title: string;
+  subtitle: string;
+  summary: string;
+  bullets: string[];
+  examTip: string;
+}
+
 export interface QuestionResource {
   conceptSummary: string;
+  studyNote: StudyNote;
   links: StudyLink[];
 }
 

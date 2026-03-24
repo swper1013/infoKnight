@@ -20,6 +20,7 @@ export function QuestionCard({
 }) {
   const [showAnswer, setShowAnswer] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [showHelpNote, setShowHelpNote] = useState(false);
 
   const stats = useMemo(() => {
     if (!progress) {
@@ -82,6 +83,13 @@ export function QuestionCard({
         >
           {showExplanation ? "해설 숨기기" : "해설 보기"}
         </button>
+        <button
+          type="button"
+          onClick={() => setShowHelpNote((value) => !value)}
+          className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-900 transition hover:border-sky-300 hover:bg-sky-100"
+        >
+          {showHelpNote ? "도움말 숨기기" : "도움말 보기"}
+        </button>
       </div>
 
       {showAnswer ? (
@@ -99,6 +107,35 @@ export function QuestionCard({
           <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-slate-700">
             {question.explanation}
           </p>
+        </div>
+      ) : null}
+
+      {showHelpNote ? (
+        <div className="mt-4 rounded-[28px] border border-slate-200 bg-white/90 p-5 sm:p-6">
+          <p className="text-sm font-semibold text-emerald-700">빠른 도움말</p>
+          <h4 className="mt-2 text-2xl font-bold tracking-tight">{resource.studyNote.title}</h4>
+          <p className="mt-2 text-sm font-semibold text-slate-500">{resource.studyNote.subtitle}</p>
+          <p className="mt-4 text-sm leading-8 text-slate-700 sm:text-base">
+            {resource.studyNote.summary}
+          </p>
+
+          <div className="mt-5 space-y-3">
+            {resource.studyNote.bullets.map((bullet) => (
+              <div
+                key={bullet}
+                className="rounded-3xl border border-slate-200/80 bg-slate-50/70 px-5 py-4"
+              >
+                <p className="text-sm leading-8 text-slate-700 sm:text-base">{bullet}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5 rounded-[24px] border border-amber-100 bg-amber-50/80 px-5 py-4">
+            <p className="text-sm font-semibold text-amber-800">시험장 팁</p>
+            <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+              {resource.studyNote.examTip}
+            </p>
+          </div>
         </div>
       ) : null}
 
