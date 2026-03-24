@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 import { AppNavigation } from "@/components/app-navigation";
 import { StudyProvider } from "@/components/study-provider";
+import { appVersion } from "@/lib/app-meta";
 
 export const metadata: Metadata = {
   title: "InfoKnight",
@@ -33,9 +35,17 @@ export default function RootLayout({
                     </p>
                   </div>
                 </div>
-                <div className="rounded-2xl bg-slate-900 px-4 py-3 text-sm text-slate-100 shadow-[0_10px_24px_rgba(15,23,42,0.16)]">
-                  <p className="font-semibold">평일 공부 시간</p>
-                  <p className="mt-1 text-slate-300">최대 120분 기준으로 자동 계획</p>
+                <div className="flex flex-col gap-3 sm:items-end">
+                  <div className="rounded-2xl bg-slate-900 px-4 py-3 text-sm text-slate-100 shadow-[0_10px_24px_rgba(15,23,42,0.16)]">
+                    <p className="font-semibold">평일 공부 시간</p>
+                    <p className="mt-1 text-slate-300">최대 120분 기준으로 자동 계획</p>
+                  </div>
+                  <Link
+                    href="/updates"
+                    className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-900"
+                  >
+                    업데이트 로그 {appVersion}
+                  </Link>
                 </div>
               </div>
               <AppNavigation />
