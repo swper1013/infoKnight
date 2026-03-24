@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { href: "/dashboard", label: "대시보드" },
   { href: "/today", label: "오늘 공부" },
   { href: "/practice", label: "문제 풀이" },
+  { href: "/real-practice", label: "실전 풀이" },
   { href: "/wrong-note", label: "오답노트" },
 ];
 

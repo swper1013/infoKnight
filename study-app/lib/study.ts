@@ -15,11 +15,12 @@ export const QUESTION_TYPE_OPTIONS: QuestionTypeFilter[] = [
   "all",
   "sql",
   "java",
+  "python",
   "descriptive",
   "concept",
 ];
 
-export const defaultWeakTopics = ["SQL/데이터베이스", "Java 기초", "응집도/결합도"];
+export const defaultWeakTopics = ["SQL/데이터베이스", "Java 기초", "Python 기초"];
 
 export function formatDateKey(date: Date) {
   const year = date.getFullYear();
@@ -101,6 +102,7 @@ export function formatQuestionTypeLabel(type: string) {
     all: "전체",
     sql: "SQL",
     java: "Java",
+    python: "Python",
     descriptive: "서술형",
     concept: "개념",
   };
@@ -189,6 +191,10 @@ export function questionMatchesWeakTopic(
       return question.type === "java";
     }
 
+    if (weak.includes("python") || weak.includes("파이썬")) {
+      return question.type === "python";
+    }
+
     if (
       weak.includes("응집") ||
       weak.includes("결합") ||
@@ -262,15 +268,16 @@ export function generateTodayPlan({
         id: "practice-core",
         title: "문제 풀이",
         minutes: 45,
-        description: "SQL, Java, 개념 문제를 섞어 실전 감각을 올립니다.",
+        description: "SQL, Java, Python, 개념 문제를 섞어 실전 감각을 올립니다.",
       },
       {
         id: "wrong-review",
         title: "오답 복습",
         minutes: heavyWrongReview ? 35 : 30,
-        description: dueReviewCount > 0
-          ? `복습 예정 ${dueReviewCount}문제를 먼저 다시 풉니다.`
-          : "틀렸던 문제를 다시 풀고 해설에서 키워드만 다시 적어봅니다.",
+        description:
+          dueReviewCount > 0
+            ? `복습 예정 ${dueReviewCount}문제를 먼저 다시 풉니다.`
+            : "틀렸던 문제를 다시 풀고 해설에서 키워드만 다시 적어봅니다.",
       },
       {
         id: "memory-note",
@@ -290,9 +297,10 @@ export function generateTodayPlan({
         id: "wrong-review",
         title: "오답 복습",
         minutes: heavyWrongReview ? 40 : 35,
-        description: dueReviewCount > 0
-          ? `오늘 다시 볼 ${dueReviewCount}문제를 최우선으로 복습합니다.`
-          : "오답노트 최상단 문제부터 다시 풀며 약점을 줄입니다.",
+        description:
+          dueReviewCount > 0
+            ? `오늘 다시 볼 ${dueReviewCount}문제를 최우선으로 복습합니다.`
+            : "오답노트 최상단 문제부터 다시 풀며 약점을 줄입니다.",
       },
       {
         id: "weak-topic",
@@ -432,6 +440,7 @@ function countQuestionTypes(questions: StudyQuestion[]) {
     {
       sql: 0,
       java: 0,
+      python: 0,
       descriptive: 0,
       concept: 0,
     },

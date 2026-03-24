@@ -1,8 +1,9 @@
-export type QuestionType = "sql" | "java" | "descriptive" | "concept";
+export type QuestionType = "sql" | "java" | "python" | "descriptive" | "concept";
 export type QuestionTypeFilter = QuestionType | "all";
 export type Difficulty = "입문" | "기본" | "실전";
 export type StudyStage = "early" | "middle" | "final";
 export type StudyResult = "correct" | "wrong";
+export type ExamTrack = "core" | "recovery";
 
 export interface StudyQuestion {
   id: string;
@@ -13,6 +14,10 @@ export interface StudyQuestion {
   explanation: string;
   difficulty: Difficulty;
   sourceNote: string;
+  examTrack?: ExamTrack;
+  year?: number;
+  round?: string;
+  sourceUrls?: string[];
 }
 
 export interface StudyLink {

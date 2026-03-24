@@ -16,6 +16,11 @@ const oracleJavaLinks: StudyLink[] = [
   { label: "Oracle Java Exceptions", url: "https://docs.oracle.com/javase/tutorial/essential/exceptions/catch.html" },
 ];
 
+const pythonLinks: StudyLink[] = [
+  { label: "Python Official Tutorial", url: "https://docs.python.org/3/tutorial/" },
+  { label: "Python Data Structures", url: "https://docs.python.org/3/tutorial/datastructures.html" },
+];
+
 const conceptLinks: StudyLink[] = [
   { label: "Atlassian Agile Ceremonies", url: "https://www.atlassian.com/agile/scrum/ceremonies" },
   { label: "Red Hat CI/CD Guide", url: "https://www.redhat.com/en/topics/devops/what-is-ci-cd" },
@@ -508,6 +513,23 @@ function fallbackResource(question: StudyQuestion): QuestionResource {
         ),
         links: oracleJavaLinks,
       };
+    case "python":
+      return {
+        conceptSummary:
+          "Python 문제는 리스트, 딕셔너리, 슬라이싱, comprehension, lambda/filter처럼 짧은 문법 조합을 정확히 읽는 것이 핵심이다. 출력형 문제는 중간 자료구조를 직접 적어 보면 훨씬 쉬워진다.",
+        studyNote: conceptNote(
+          "Python 기본 노트",
+          "리스트 / 딕셔너리 / comprehension / 함수형 문법",
+          "Python은 문법이 짧아서 오히려 한 줄을 잘못 읽기 쉽습니다. 슬라이싱 결과, comprehension의 조건, lambda나 filter가 남기는 값만 정확히 추적해도 대부분의 출력형 문제를 풀 수 있습니다.",
+          [
+            "리스트 슬라이싱은 시작 인덱스는 포함하고 끝 인덱스는 제외합니다. 이 기본 규칙만 정확해도 초반 실수를 많이 줄일 수 있습니다.",
+            "딕셔너리는 키와 값 구조이고, comprehension은 반복과 조건을 한 줄로 압축한 문법입니다. 중간 결과를 직접 적어 보면 훨씬 잘 풀립니다.",
+            "lambda, filter, map이 나오면 무엇을 남기고 무엇을 변환하는지부터 분리해서 보세요.",
+          ],
+          "Python 출력형은 실제 리스트나 dict 결과를 손으로 한 번 써 보는 습관이 가장 효과적입니다.",
+        ),
+        links: pythonLinks,
+      };
     default:
       return {
         conceptSummary:
@@ -527,3 +549,7 @@ function fallbackResource(question: StudyQuestion): QuestionResource {
       };
   }
 }
+
+
+
+

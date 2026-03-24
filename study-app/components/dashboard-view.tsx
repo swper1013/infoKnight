@@ -275,3 +275,4 @@ function LoadingCard({ label }: { label: string }) {
     </div>
   );
 }
+
