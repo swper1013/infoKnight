@@ -1,6 +1,16 @@
 {
-  "currentVersion": "v0.14",
+  "currentVersion": "v0.15",
   "entries": [
+    {
+      "version": "v0.15",
+      "date": "2026-03-24",
+      "summary": "SQL 실전 문제에 예시 테이블 추가",
+      "changes": [
+        "2020~2025 복원 기반 SQL 실전 문제 카드에 예시 테이블과 상황 설명을 붙였습니다.",
+        "COUNT, JOIN, 트랜잭션, HAVING, VIEW, NULL 집계 문제를 표를 보며 풀 수 있게 정리했습니다.",
+        "깨진 recovery question 데이터 문자열을 복구해 Vercel 빌드가 다시 안정적으로 되도록 정리했습니다."
+      ]
+    },
     {
       "version": "v0.14",
       "date": "2026-03-24",

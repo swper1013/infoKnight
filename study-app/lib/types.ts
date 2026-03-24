@@ -18,11 +18,19 @@ export interface StudyQuestion {
   year?: number;
   round?: string;
   sourceUrls?: string[];
+  questionTables?: QuestionTable[];
 }
 
 export interface StudyLink {
   label: string;
   url: string;
+}
+
+export interface QuestionTable {
+  title: string;
+  columns: string[];
+  rows: string[][];
+  note?: string;
 }
 
 export interface StudyComparisonRow {

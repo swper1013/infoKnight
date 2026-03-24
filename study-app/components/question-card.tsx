@@ -72,6 +72,41 @@ export function QuestionCard({
         <p className="whitespace-pre-wrap text-base leading-8 text-slate-800">{question.question}</p>
       </div>
 
+      {question.questionTables?.length ? (
+        <div className="mt-4 space-y-4">
+          {question.questionTables.map((table) => (
+            <div key={table.title} className="rounded-[28px] border border-slate-200 bg-white/90 p-5">
+              <p className="text-sm font-semibold text-slate-800">{table.title}</p>
+              <div className="mt-3 overflow-x-auto">
+                <table className="min-w-full overflow-hidden rounded-2xl border border-slate-200 text-left text-sm">
+                  <thead className="bg-slate-100 text-slate-700">
+                    <tr>
+                      {table.columns.map((column) => (
+                        <th key={column} className="px-4 py-3 font-semibold">
+                          {column}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white text-slate-700">
+                    {table.rows.map((row, rowIndex) => (
+                      <tr key={`${table.title}-${rowIndex}`} className="border-t border-slate-200">
+                        {row.map((cell, cellIndex) => (
+                          <td key={`${table.title}-${rowIndex}-${cellIndex}`} className="px-4 py-3 whitespace-pre-wrap">
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {table.note ? <p className="mt-3 text-sm leading-6 text-slate-500">{table.note}</p> : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
+
       <div className="mt-5 flex flex-wrap gap-3">
         <button
           type="button"

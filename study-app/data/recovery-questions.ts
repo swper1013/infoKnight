@@ -15,6 +15,14 @@ export const recoveryQuestions: StudyQuestion[] = [
     examTrack: "recovery",
     year: 2020,
     round: "1회",
+    questionTables: [
+      {
+        title: "SCORE 예시 테이블",
+        columns: ["student_no", "point"],
+        rows: [["101", "70"], ["150", "85"], ["200", "60"], ["201", "90"]],
+        note: "조건식 우선순위를 계산할 때 이 표를 기준으로 행 개수를 세면 됩니다.",
+      },
+    ],
     sourceUrls: [
       "https://roadtofree.tistory.com/entry/%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EB%AC%B8%EC%A0%9C-SQL-%EA%B8%B0%EC%B6%9C-%ED%92%80%EC%9D%B4-%EB%AA%A8%EC%9D%8C",
     ],
@@ -81,6 +89,14 @@ export const recoveryQuestions: StudyQuestion[] = [
     examTrack: "recovery",
     year: 2021,
     round: "1회",
+    questionTables: [
+      {
+        title: "student / major 예시 테이블",
+        columns: ["student.student_no", "student.major_id", "major.major_id", "major.major_name"],
+        rows: [["1001", "10", "10", "컴공"], ["1002", "20", "20", "정보통신"]],
+        note: "JOIN은 공통 키 major_id를 ON 절에서 연결합니다.",
+      },
+    ],
     sourceUrls: [
       "https://roadtofree.tistory.com/entry/%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EB%AC%B8%EC%A0%9C-SQL-%EA%B8%B0%EC%B6%9C-%ED%92%80%EC%9D%B4-%EB%AA%A8%EC%9D%8C",
     ],
@@ -147,6 +163,14 @@ export const recoveryQuestions: StudyQuestion[] = [
     examTrack: "recovery",
     year: 2022,
     round: "1회",
+    questionTables: [
+      {
+        title: "트랜잭션 수행 순서",
+        columns: ["순서", "작업"],
+        rows: [["1", "INSERT A"], ["2", "SAVEPOINT S1"], ["3", "INSERT B"], ["4", "ROLLBACK TO S1"], ["5", "INSERT C"], ["6", "COMMIT"]],
+        note: "SAVEPOINT 이후 되돌리는 구간을 표로 보면 최종 반영값이 더 잘 보입니다.",
+      },
+    ],
     sourceUrls: ["https://ss-o.tistory.com/165"],
   },
   {
@@ -213,6 +237,14 @@ export const recoveryQuestions: StudyQuestion[] = [
     examTrack: "recovery",
     year: 2023,
     round: "1회",
+    questionTables: [
+      {
+        title: "exam_result 예시 집계",
+        columns: ["dept_id", "score"],
+        rows: [["10", "70"], ["10", "90"], ["20", "85"], ["20", "95"]],
+        note: "AVG(score) 계산 후 조건을 거는 위치가 HAVING입니다.",
+      },
+    ],
     sourceUrls: [
       "https://sssinga.tistory.com/entry/%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-2023%EB%85%84-3%ED%9A%8C-%EA%B8%B0%EC%B6%9C%EB%AC%B8%EC%A0%9C-%EB%B3%B5%EC%9B%90-%EB%B0%8F-%EB%8B%B5%ED%95%B4%EC%84%A4",
       "https://chobopark.tistory.com/460",
@@ -285,6 +317,14 @@ export const recoveryQuestions: StudyQuestion[] = [
     examTrack: "recovery",
     year: 2024,
     round: "1회",
+    questionTables: [
+      {
+        title: "VIEW로 감추는 원본 예시",
+        columns: ["student_no", "name", "phone", "major_name"],
+        rows: [["1001", "민수", "010-1111-2222", "컴공"], ["1002", "지연", "010-3333-4444", "정보통신"]],
+        note: "VIEW는 이런 원본 테이블에서 필요한 열만 노출하는 상황을 자주 가정합니다.",
+      },
+    ],
     sourceUrls: ["https://my-dev-diary.tistory.com/17"],
   },
   {
@@ -349,6 +389,14 @@ export const recoveryQuestions: StudyQuestion[] = [
     examTrack: "recovery",
     year: 2025,
     round: "1회",
+    questionTables: [
+      {
+        title: "COUNT 예시 테이블",
+        columns: ["id", "score"],
+        rows: [["1", "90"], ["2", "NULL"], ["3", "75"]],
+        note: "COUNT(score)는 NULL을 제외하고, COUNT(*)는 전체 행을 셉니다.",
+      },
+    ],
     sourceUrls: ["https://www.kimjaahyun.com/ko/blog/jeongcheogi-practical-exam-review-2025-2"],
   },
   {
@@ -403,4 +451,8 @@ export const recoveryQuestions: StudyQuestion[] = [
     ],
   },
 ];
+
+
+
+
 

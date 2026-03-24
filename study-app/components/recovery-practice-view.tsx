@@ -52,7 +52,7 @@ export function RecoveryPracticeView() {
               <p className="text-sm font-semibold text-violet-700">2020~2025 공개 복원 경향 기반</p>
               <h2 className="mt-2 text-3xl font-bold tracking-tight">실전 풀이</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600 sm:text-base">
-                시험 원문을 그대로 복사하지 않고, 공개 후기와 복원 자료에서 반복 확인된 Java, Python, SQL 패턴을 변형한 실전 세트입니다.
+                시험 원문을 그대로 복사하지 않고, 공개 후기와 복원 자료에서 반복 확인된 SQL, Java, Python, C 패턴을 변형한 실전 세트입니다. 일부 SQL 문제에는 예시 테이블을 함께 붙였습니다.
               </p>
             </div>
             <div className="rounded-2xl bg-slate-900 px-4 py-3 text-sm text-white">
@@ -201,4 +201,5 @@ function LoadingCard({ label }: { label: string }) {
     <div className="card-surface rounded-[28px] p-10 text-center text-sm text-slate-600">{label}</div>
   );
 }
+
 

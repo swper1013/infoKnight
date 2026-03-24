@@ -1,6 +1,6 @@
 {
   "name": "infoknight-study-app",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "private": true,
   "engines": {
     "node": ">=20.9.0"
@@ -27,6 +27,3 @@
     "typescript": "^5"
   }
 }
-
-
-
