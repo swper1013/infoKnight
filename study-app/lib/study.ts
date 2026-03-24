@@ -16,6 +16,7 @@ export const QUESTION_TYPE_OPTIONS: QuestionTypeFilter[] = [
   "sql",
   "java",
   "python",
+  "c",
   "descriptive",
   "concept",
 ];
@@ -103,6 +104,7 @@ export function formatQuestionTypeLabel(type: string) {
     sql: "SQL",
     java: "Java",
     python: "Python",
+    c: "C",
     descriptive: "서술형",
     concept: "개념",
   };
@@ -195,6 +197,10 @@ export function questionMatchesWeakTopic(
       return question.type === "python";
     }
 
+    if (weak === "c" || weak.includes("c언어") || weak.includes("포인터") || weak.includes("구조체")) {
+      return question.type === "c";
+    }
+
     if (
       weak.includes("응집") ||
       weak.includes("결합") ||
@@ -268,7 +274,7 @@ export function generateTodayPlan({
         id: "practice-core",
         title: "문제 풀이",
         minutes: 45,
-        description: "SQL, Java, Python, 개념 문제를 섞어 실전 감각을 올립니다.",
+        description: "SQL, Java, Python, C, 개념 문제를 섞어 실전 감각을 올립니다.",
       },
       {
         id: "wrong-review",
@@ -441,6 +447,7 @@ function countQuestionTypes(questions: StudyQuestion[]) {
       sql: 0,
       java: 0,
       python: 0,
+      c: 0,
       descriptive: 0,
       concept: 0,
     },

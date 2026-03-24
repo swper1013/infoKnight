@@ -1,6 +1,16 @@
 {
-  "currentVersion": "v0.13",
+  "currentVersion": "v0.14",
   "entries": [
+    {
+      "version": "v0.14",
+      "date": "2026-03-24",
+      "summary": "실전 풀이에 C언어 세트 추가",
+      "changes": [
+        "실전 풀이 언어 범위를 SQL, Java, Python뿐 아니라 C까지 확장했습니다.",
+        "2020~2025 공개 복원 경향 기반 C 포인터, 구조체, static, 증감 연산 문제를 추가했습니다.",
+        "전체 문제 타입, 통계, 도움말 노트에 C 타입을 반영했습니다."
+      ]
+    },
     {
       "version": "v0.13",
       "date": "2026-03-24",

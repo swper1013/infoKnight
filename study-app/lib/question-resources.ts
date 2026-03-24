@@ -21,6 +21,11 @@ const pythonLinks: StudyLink[] = [
   { label: "Python Data Structures", url: "https://docs.python.org/3/tutorial/datastructures.html" },
 ];
 
+const cLinks: StudyLink[] = [
+  { label: "C Pointer Basics", url: "https://www.geeksforgeeks.org/c/pointers-in-c-and-c-set-1-introduction-arithmetic-and-array/" },
+  { label: "C Structures", url: "https://www.geeksforgeeks.org/c/structures-c/" },
+];
+
 const conceptLinks: StudyLink[] = [
   { label: "Atlassian Agile Ceremonies", url: "https://www.atlassian.com/agile/scrum/ceremonies" },
   { label: "Red Hat CI/CD Guide", url: "https://www.redhat.com/en/topics/devops/what-is-ci-cd" },
@@ -530,6 +535,23 @@ function fallbackResource(question: StudyQuestion): QuestionResource {
         ),
         links: pythonLinks,
       };
+    case "c":
+      return {
+        conceptSummary:
+          "C 문제는 포인터, 배열, 구조체, static 변수, 전위/후위 증가 연산, 함수 호출 후 값 변화 추적이 핵심이다. 한 줄씩 메모리 상태를 적어 보면 정답률이 크게 올라간다.",
+        studyNote: conceptNote(
+          "C 기본 노트",
+          "포인터 / 구조체 / static / 증감 연산",
+          "C 출력형 문제는 문법을 많이 외우는 시험이 아니라, 변수와 포인터가 어느 주소를 가리키고 값이 언제 바뀌는지 추적하는 시험에 가깝습니다. 구조체와 포인터를 같이 쓰는 문제가 특히 자주 등장합니다.",
+          [
+            "포인터는 값을 직접 담는 것이 아니라 주소를 담습니다. *는 역참조, &는 주소 연산자라는 점을 먼저 정리하세요.",
+            "구조체 문제는 멤버 값이 함수 호출 전후에 어떻게 바뀌는지 순서대로 적어 보면 대부분 풀립니다.",
+            "전위와 후위 증가, static 변수 누적은 시험에서 자주 함정으로 쓰이므로 계산 순서를 손으로 써 보는 습관이 중요합니다.",
+          ],
+          "C 문제는 포인터가 가리키는 대상과 값 변경 시점을 표처럼 적으면 훨씬 안정적으로 맞힐 수 있습니다.",
+        ),
+        links: cLinks,
+      };
     default:
       return {
         conceptSummary:
@@ -549,7 +571,3 @@ function fallbackResource(question: StudyQuestion): QuestionResource {
       };
   }
 }
-
-
-
-

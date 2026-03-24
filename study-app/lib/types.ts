@@ -1,4 +1,4 @@
-export type QuestionType = "sql" | "java" | "python" | "descriptive" | "concept";
+export type QuestionType = "sql" | "java" | "python" | "c" | "descriptive" | "concept";
 export type QuestionTypeFilter = QuestionType | "all";
 export type Difficulty = "입문" | "기본" | "실전";
 export type StudyStage = "early" | "middle" | "final";

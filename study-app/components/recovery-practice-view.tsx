@@ -201,3 +201,4 @@ function LoadingCard({ label }: { label: string }) {
     <div className="card-surface rounded-[28px] p-10 text-center text-sm text-slate-600">{label}</div>
   );
 }
+

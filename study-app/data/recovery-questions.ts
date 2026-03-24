@@ -52,6 +52,22 @@ export const recoveryQuestions: StudyQuestion[] = [
     sourceUrls: ["https://chobopark.tistory.com/460"],
   },
   {
+    id: "recovery-2020-4-c-01",
+    type: "c",
+    topic: "포인터와 배열",
+    question:
+      "[2020 C언어 복원 경향 변형]\n다음 C 코드의 출력 결과를 쓰시오.\n\n#include <stdio.h>\nint main(){\n  int a[3] = {2, 4, 6};\n  int *p = a;\n  printf(\"%d\", *(p + 1) + *p);\n  return 0;\n}",
+    answer: "6",
+    explanation:
+      "p는 배열 첫 원소를 가리키므로 *p는 2, *(p+1)은 4입니다. 합은 6입니다. 2020 이후 C 문제에서 포인터와 배열 인덱스 변환은 매우 기본적인 반복 패턴입니다.",
+    difficulty: "기본",
+    sourceNote: "2020~2022 공개 복원 C 포인터/배열 출력형 패턴 기반 변형",
+    examTrack: "recovery",
+    year: 2020,
+    round: "3회",
+    sourceUrls: ["https://chobopark.tistory.com/460"],
+  },
+  {
     id: "recovery-2021-1-sql-01",
     type: "sql",
     topic: "JOIN 기본 문법",
@@ -102,6 +118,22 @@ export const recoveryQuestions: StudyQuestion[] = [
     sourceUrls: ["https://chobopark.tistory.com/460"],
   },
   {
+    id: "recovery-2021-4-c-01",
+    type: "c",
+    topic: "구조체와 함수 호출",
+    question:
+      "[2021 C언어 복원 경향 변형]\n다음 C 코드의 출력 결과를 쓰시오.\n\n#include <stdio.h>\ntypedef struct { int a; int b; } Node;\nvoid func(Node *n){\n  n->a += n->b;\n}\nint main(){\n  Node n = {3, 5};\n  func(&n);\n  printf(\"%d\", n.a);\n  return 0;\n}",
+    answer: "8",
+    explanation:
+      "포인터로 구조체 주소를 넘겼기 때문에 함수 내부에서 원본 n.a가 3+5로 바뀌어 8이 출력됩니다. 구조체 포인터와 값 변경 흐름은 C 문제의 대표 반복 패턴입니다.",
+    difficulty: "기본",
+    sourceNote: "2021~2022 공개 복원 C 구조체/포인터 패턴 기반 변형",
+    examTrack: "recovery",
+    year: 2021,
+    round: "3회",
+    sourceUrls: ["https://techtrail.tistory.com/entry/%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-2022%EB%85%84-1%ED%9A%8C-%EA%B8%B0%EC%B6%9C-%EC%BD%94%EB%93%9C-%ED%95%B4%EC%84%A4-C%EC%96%B8%EC%96%B4-Java-Python"],
+  },
+  {
     id: "recovery-2022-1-sql-01",
     type: "sql",
     topic: "트랜잭션과 SAVEPOINT",
@@ -148,6 +180,24 @@ export const recoveryQuestions: StudyQuestion[] = [
     year: 2022,
     round: "3회",
     sourceUrls: ["https://ss-o.tistory.com/165"],
+  },
+  {
+    id: "recovery-2022-4-c-01",
+    type: "c",
+    topic: "구조체 값 변경",
+    question:
+      "[2022 1회 C언어 복원 경향 변형]\n다음 C 코드의 출력 결과를 쓰시오.\n\n#include <stdio.h>\ntypedef struct { int a; int b; } A;\nstatic void func1(A *m){ m->a *= 10; }\nstatic void func2(A *m){ m->a += m->b; }\nint main(){\n  A m;\n  m.a = 100;\n  func1(&m);\n  m.b = m.a;\n  func2(&m);\n  printf(\"%d\", m.a);\n  return 0;\n}",
+    answer: "2000",
+    explanation:
+      "m.a는 100에서 func1 후 1000이 되고, m.b에 1000을 넣은 뒤 func2에서 a+b를 수행해 2000이 됩니다. 이 패턴은 2022 1회 공개 C/Java/Python 코드 해설 자료에서 대표적으로 다뤄진 구조체 값 변화 흐름입니다.",
+    difficulty: "실전",
+    sourceNote: "2022 1회 공개 복원 C 구조체/포인터 계산형 패턴 기반 변형",
+    examTrack: "recovery",
+    year: 2022,
+    round: "1회",
+    sourceUrls: [
+      "https://techtrail.tistory.com/entry/%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-2022%EB%85%84-1%ED%9A%8C-%EA%B8%B0%EC%B6%9C-%EC%BD%94%EB%93%9C-%ED%95%B4%EC%84%A4-C%EC%96%B8%EC%96%B4-Java-Python",
+    ],
   },
   {
     id: "recovery-2023-1-sql-01",
@@ -206,6 +256,22 @@ export const recoveryQuestions: StudyQuestion[] = [
     ],
   },
   {
+    id: "recovery-2023-4-c-01",
+    type: "c",
+    topic: "전위 증가와 포인터",
+    question:
+      "[2023 C언어 복원 경향 변형]\n다음 C 코드의 출력 결과를 쓰시오.\n\n#include <stdio.h>\nint main(){\n  int x = 2;\n  int *p = &x;\n  printf(\"%d %d\", ++(*p), x);\n  return 0;\n}",
+    answer: "3 3",
+    explanation:
+      "p는 x를 가리키므로 ++(*p)는 x 값을 먼저 3으로 증가시키고 3을 반환합니다. 이후 x도 3입니다. C에서는 전위/후위 연산과 포인터 결합이 대표 함정입니다.",
+    difficulty: "기본",
+    sourceNote: "2023~2025 공개 복원 C 증감연산/포인터 함정 패턴 기반 변형",
+    examTrack: "recovery",
+    year: 2023,
+    round: "3회",
+    sourceUrls: ["https://chobopark.tistory.com/460"],
+  },
+  {
     id: "recovery-2024-1-sql-01",
     type: "sql",
     topic: "VIEW와 보안",
@@ -252,6 +318,22 @@ export const recoveryQuestions: StudyQuestion[] = [
     year: 2024,
     round: "3회",
     sourceUrls: ["https://my-dev-diary.tistory.com/17"],
+  },
+  {
+    id: "recovery-2024-4-c-01",
+    type: "c",
+    topic: "static 지역변수",
+    question:
+      "[2024 C언어 복원 경향 변형]\n다음 C 코드의 출력 결과를 쓰시오.\n\n#include <stdio.h>\nint func(){\n  static int x = 0;\n  x += 2;\n  return x;\n}\nint main(){\n  int sum = 0;\n  for(int i=0; i<3; i++) sum += func();\n  printf(\"%d\", sum);\n  return 0;\n}",
+    answer: "12",
+    explanation:
+      "static 지역변수 x는 호출 사이에 값이 유지되어 2, 4, 6을 반환합니다. 합은 12입니다. 2024~2025 공개 풀이에서 static 누적형 C 문제가 반복 언급됩니다.",
+    difficulty: "실전",
+    sourceNote: "2024 공개 복원 C static 지역변수 누적 패턴 기반 변형",
+    examTrack: "recovery",
+    year: 2024,
+    round: "3회 수준",
+    sourceUrls: ["https://gogo-coding.tistory.com/356"],
   },
   {
     id: "recovery-2025-1-sql-01",
@@ -301,4 +383,24 @@ export const recoveryQuestions: StudyQuestion[] = [
     round: "3회",
     sourceUrls: ["https://www.kimjaahyun.com/ko/blog/jeongcheogi-practical-exam-review-2025-2"],
   },
+  {
+    id: "recovery-2025-4-c-01",
+    type: "c",
+    topic: "포인터와 구조체 연결",
+    question:
+      "[2025 2회 C언어 복원 경향 변형]\n다음 C 코드의 출력 결과를 쓰시오.\n\n#include <stdio.h>\ntypedef struct { int x; int y; } Node;\nint main(){\n  Node n = {2, 3};\n  Node *p = &n;\n  p->x += p->y;\n  printf(\"%d %d\", n.x, p->y);\n  return 0;\n}",
+    answer: "5 3",
+    explanation:
+      "포인터 p는 n을 가리키므로 p->x += p->y 수행 후 n.x는 5가 되고 y는 그대로 3입니다. 2025 2회 공개 후기에서는 C 언어의 포인터, 구조체, 연결 리스트류 문제가 다수 언급되었습니다.",
+    difficulty: "실전",
+    sourceNote: "2025 2회 공개 후기의 C 포인터/구조체 패턴 기반 변형",
+    examTrack: "recovery",
+    year: 2025,
+    round: "2회",
+    sourceUrls: [
+      "https://www.kimjaahyun.com/ko/blog/jeongcheogi-practical-exam-review-2025-2",
+      "https://techtrail.tistory.com/entry/%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EA%B8%B0%EC%82%AC-%EC%8B%A4%EA%B8%B0-2022%EB%85%84-1%ED%9A%8C-%EA%B8%B0%EC%B6%9C-%EC%BD%94%EB%93%9C-%ED%95%B4%EC%84%A4-C%EC%96%B8%EC%96%B4-Java-Python",
+    ],
+  },
 ];
+
