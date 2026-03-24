@@ -26,7 +26,7 @@ export function RecoveryPracticeView() {
     const byRound =
       activeRound === "all"
         ? byYear
-        : byYear.filter((question) => question.round === activeRound);
+        : byYear.filter((question) => question.round?.startsWith(activeRound));
     const byType =
       activeType === "all"
         ? byRound
@@ -52,7 +52,7 @@ export function RecoveryPracticeView() {
               <p className="text-sm font-semibold text-violet-700">2020~2025 공개 복원 경향 기반</p>
               <h2 className="mt-2 text-3xl font-bold tracking-tight">실전 풀이</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600 sm:text-base">
-                시험 원문을 그대로 복사하지 않고, 공개 후기와 복원 자료에서 반복 확인된 SQL, Java, Python, C 패턴을 변형한 실전 세트입니다. 일부 SQL 문제에는 예시 테이블을 함께 붙였습니다.
+                시험 원문을 그대로 복사하지 않고, 공개 후기와 복원 자료에서 반복 확인된 SQL, Java, Python, C 패턴을 변형한 실전 세트입니다. 연도별·언어별 최소 5문항을 보이도록 확장했고, SQL 문제에는 예시 테이블을 함께 붙였습니다.
               </p>
             </div>
             <div className="rounded-2xl bg-slate-900 px-4 py-3 text-sm text-white">
@@ -166,7 +166,7 @@ export function RecoveryPracticeView() {
           <div className="mt-4 space-y-3 text-sm leading-6 text-slate-600">
             <p className="rounded-2xl bg-white/75 px-4 py-3">공개 후기와 복원 자료에서 반복 확인된 패턴만 가져와 변형했습니다.</p>
             <p className="rounded-2xl bg-white/75 px-4 py-3">원문 복사 대신 구조와 핵심 함정을 유지하는 방식으로 재구성했습니다.</p>
-            <p className="rounded-2xl bg-white/75 px-4 py-3">틀리면 일반 오답노트와 동일하게 저장되어 반복 복습 흐름에 바로 연결됩니다.</p>
+            <p className="rounded-2xl bg-white/75 px-4 py-3">틀리면 일반 오답노트와 동일하게 저장되어 반복 복습 흐름에 바로 연결됩니다.</p>`r`n            <p className="rounded-2xl bg-emerald-50 px-4 py-3 font-semibold text-emerald-800">각 연도별 SQL, Java, Python, C는 최소 5문항 이상 보이도록 확장했습니다.</p>
           </div>
         </div>
       </aside>
@@ -201,5 +201,6 @@ function LoadingCard({ label }: { label: string }) {
     <div className="card-surface rounded-[28px] p-10 text-center text-sm text-slate-600">{label}</div>
   );
 }
+
 
 
