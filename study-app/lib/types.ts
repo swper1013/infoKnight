@@ -15,6 +15,16 @@ export interface StudyQuestion {
   sourceNote: string;
 }
 
+export interface StudyLink {
+  label: string;
+  url: string;
+}
+
+export interface QuestionResource {
+  conceptSummary: string;
+  links: StudyLink[];
+}
+
 export interface StudyBlock {
   id: string;
   title: string;

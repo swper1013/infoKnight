@@ -9,7 +9,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import questionsData from "@/data/questions.json";
+import { questions } from "@/lib/questions";
 import {
   buildStudyStats,
   DEFAULT_EXAM_DATE,
@@ -21,7 +21,6 @@ import type {
   QuestionProgress,
   StudyContextValue,
   StudyState,
-  StudyQuestion,
 } from "@/lib/types";
 
 const STORAGE_KEY = "infoknight-study-state-v1";
@@ -34,8 +33,6 @@ const defaultState: StudyState = {
 };
 
 const StudyContext = createContext<StudyContextValue | null>(null);
-const questions = questionsData as StudyQuestion[];
-
 export function StudyProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<StudyState>(() => {
     if (typeof window === "undefined") {

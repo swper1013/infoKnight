@@ -9,7 +9,7 @@ import type {
   StudyState,
 } from "@/lib/types";
 
-export const DEFAULT_EXAM_DATE = "2026-04-18";
+export const DEFAULT_EXAM_DATE = "2026-04-17";
 export const DAILY_STUDY_MINUTES = 120;
 export const QUESTION_TYPE_OPTIONS: QuestionTypeFilter[] = [
   "all",
@@ -330,3 +330,4 @@ function countQuestionTypes(questions: StudyQuestion[]) {
     },
   );
 }
+

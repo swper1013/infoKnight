@@ -14,7 +14,7 @@ export function AppNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="mt-5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+    <nav className="mt-5 grid grid-cols-2 gap-2 rounded-[28px] border border-slate-200 bg-slate-100/80 p-2 sm:flex sm:flex-wrap">
       {NAV_ITEMS.map((item) => {
         const isActive = pathname === item.href;
 
@@ -22,10 +22,11 @@ export function AppNavigation() {
           <Link
             key={item.href}
             href={item.href}
+            aria-current={isActive ? "page" : undefined}
             className={`rounded-2xl px-4 py-3 text-sm font-semibold transition ${
               isActive
-                ? "bg-slate-900 text-white shadow-[0_12px_28px_rgba(15,23,42,0.18)]"
-                : "bg-white/75 text-slate-600 hover:bg-white hover:text-slate-900"
+                ? "border border-slate-900 bg-slate-900 text-slate-50 shadow-[0_12px_28px_rgba(15,23,42,0.18)]"
+                : "border border-transparent bg-white/90 text-slate-700 hover:border-slate-200 hover:bg-white hover:text-slate-950"
             }`}
           >
             {item.label}

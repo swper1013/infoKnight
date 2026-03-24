@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { QuestionProgress, StudyQuestion, StudyResult } from "@/lib/types";
+import { getQuestionResource } from "@/lib/question-resources";
 import {
   formatDateTimeLabel,
   formatDifficultyLabel,
@@ -31,6 +32,7 @@ export function QuestionCard({
 
     return progress;
   }, [progress]);
+  const resource = useMemo(() => getQuestionResource(question), [question]);
 
   return (
     <article className="card-surface rounded-[32px] p-6 sm:p-7">
@@ -99,6 +101,30 @@ export function QuestionCard({
           </p>
         </div>
       ) : null}
+
+      <div className="mt-4 rounded-[28px] border border-sky-100 bg-sky-50/80 p-5">
+        <p className="text-sm font-semibold text-sky-800">관련 개념 정리</p>
+        <p className="mt-2 whitespace-pre-wrap text-sm leading-7 text-slate-700">
+          {resource.conceptSummary}
+        </p>
+      </div>
+
+      <div className="mt-4 rounded-[28px] border border-slate-200 bg-white/90 p-5">
+        <p className="text-sm font-semibold text-slate-800">공식 / 학습 링크</p>
+        <div className="mt-3 flex flex-col gap-2">
+          {resource.links.map((link) => (
+            <a
+              key={link.url}
+              href={link.url}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-900"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         <button
