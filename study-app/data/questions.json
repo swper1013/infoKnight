@@ -1,0 +1,402 @@
+[
+  {
+    "id": "SQL-01",
+    "type": "sql",
+    "topic": "DISTINCT와 COUNT",
+    "question": "회원 테이블 MEMBER(member_id, grade) 에 다음 데이터가 있다고 하자.\nbronze 3명, silver 2명, gold 5명이다.\n\n등급의 종류 수를 구하는 SQL을 작성하시오.",
+    "answer": "SELECT COUNT(DISTINCT grade) AS grade_count\nFROM MEMBER;",
+    "explanation": "행 수가 아니라 등급 종류 수를 세는 문제이므로 COUNT(DISTINCT 컬럼)을 사용한다. 실기에서 DISTINCT, COUNT 조합은 SQL 기본 빈출 패턴이다.",
+    "difficulty": "입문",
+    "sourceNote": "2023~2025 SQL 집계 기본 패턴 반영"
+  },
+  {
+    "id": "SQL-02",
+    "type": "sql",
+    "topic": "JOIN 기초",
+    "question": "고객 테이블 CUSTOMER(cust_id, cust_name) 와 주문 테이블 ORDERS(order_id, cust_id, amount) 가 있다.\n주문 금액이 300000원 이상인 주문의 고객명과 주문금액을 조회하는 SQL을 작성하시오.",
+    "answer": "SELECT c.cust_name, o.amount\nFROM CUSTOMER c\nJOIN ORDERS o ON c.cust_id = o.cust_id\nWHERE o.amount >= 300000;",
+    "explanation": "실무형 SQL에서 가장 자주 나오는 형태다. 조인 조건은 ON 절에, 조회 조건은 WHERE 절에 둔다.",
+    "difficulty": "기본",
+    "sourceNote": "2023~2025 출제 경향의 조인/조건 검색 반영"
+  },
+  {
+    "id": "SQL-03",
+    "type": "sql",
+    "topic": "GROUP BY / HAVING",
+    "question": "EMP(emp_id, dept_id, salary) 테이블에서 부서별 평균 급여를 구하되 평균 급여가 350만원 이상인 부서만 조회하는 SQL을 작성하시오.",
+    "answer": "SELECT dept_id, AVG(salary) AS avg_salary\nFROM EMP\nGROUP BY dept_id\nHAVING AVG(salary) >= 3500000;",
+    "explanation": "집계 결과에 대한 조건은 WHERE가 아니라 HAVING을 사용한다. GROUP BY와 HAVING의 구분은 시험에서 반복 출제되는 핵심이다.",
+    "difficulty": "기본",
+    "sourceNote": "데이터베이스 반복 출제 개념 기반"
+  },
+  {
+    "id": "SQL-04",
+    "type": "sql",
+    "topic": "UPDATE",
+    "question": "PRODUCT(prod_id, category, price) 테이블에서 category가 'DB'인 상품의 price를 10% 인상하는 SQL을 작성하시오.",
+    "answer": "UPDATE PRODUCT\nSET price = price * 1.1\nWHERE category = 'DB';",
+    "explanation": "DML 중 UPDATE는 계산식과 WHERE 조건이 자주 함께 나온다. WHERE가 빠지면 전체 행이 수정되므로 주의한다.",
+    "difficulty": "입문",
+    "sourceNote": "실무형 DML 문제 패턴 반영"
+  },
+  {
+    "id": "SQL-05",
+    "type": "sql",
+    "topic": "트랜잭션 제어",
+    "question": "다음 순서로 작업이 수행되었다.\n1. INSERT 실행\n2. SAVEPOINT SP1 실행\n3. UPDATE 실행\n4. SAVEPOINT SP2 실행\n5. DELETE 실행\n\nDELETE만 취소하고 UPDATE 결과는 유지하려고 할 때 사용할 SQL 문을 작성하시오.",
+    "answer": "ROLLBACK TO SP2;",
+    "explanation": "SP2 이후 작업만 취소하면 되므로 ROLLBACK TO SP2를 사용한다. 트랜잭션과 SAVEPOINT는 최근 실기에서 반복적으로 확인되는 포인트다.",
+    "difficulty": "기본",
+    "sourceNote": "2023~2025 트랜잭션/제어문 경향 반영"
+  },
+  {
+    "id": "SQL-06",
+    "type": "sql",
+    "topic": "INDEX",
+    "question": "STUDENT(student_id, name, dept) 테이블의 name 컬럼에 IDX_STUDENT_NAME 이라는 이름의 인덱스를 생성하는 SQL을 작성하시오.",
+    "answer": "CREATE INDEX IDX_STUDENT_NAME\nON STUDENT(name);",
+    "explanation": "인덱스 생성 SQL은 CREATE INDEX index_name ON table(column) 형태를 기억하면 된다. 기출 복원에서 자주 보이는 정형 패턴이다.",
+    "difficulty": "입문",
+    "sourceNote": "SQL 기출 정리에서 반복되는 인덱스 생성 패턴 반영"
+  },
+  {
+    "id": "SQL-07",
+    "type": "sql",
+    "topic": "VIEW",
+    "question": "MEMBER(member_id, member_name, status) 테이블에서 status가 'ACTIVE'인 회원만 조회하는 뷰 ACTIVE_MEMBER_VIEW 를 생성하는 SQL을 작성하시오.",
+    "answer": "CREATE VIEW ACTIVE_MEMBER_VIEW AS\nSELECT member_id, member_name, status\nFROM MEMBER\nWHERE status = 'ACTIVE';",
+    "explanation": "뷰는 SELECT 결과를 저장하는 가상 테이블이다. CREATE VIEW ... AS SELECT ... 형태를 그대로 익혀두면 된다.",
+    "difficulty": "기본",
+    "sourceNote": "데이터 입출력 구현 파트의 반복 개념 반영"
+  },
+  {
+    "id": "SQL-08",
+    "type": "sql",
+    "topic": "프로시저",
+    "question": "직원 번호를 입력받아 EMP 테이블에서 해당 직원의 급여를 출력 파라미터로 돌려주는 프로시저의 핵심 SQL 구문을 작성하시오.\n프로시저명은 PROC_EMP_SAL, 입력 파라미터는 P_EMP_ID, 출력 파라미터는 P_SAL 로 한다.",
+    "answer": "CREATE OR REPLACE PROCEDURE PROC_EMP_SAL(\n  P_EMP_ID IN EMP.emp_id%TYPE,\n  P_SAL OUT EMP.salary%TYPE\n) IS\nBEGIN\n  SELECT salary INTO P_SAL\n  FROM EMP\n  WHERE emp_id = P_EMP_ID;\nEND;",
+    "explanation": "절차형 SQL에서는 IN, OUT 파라미터와 SELECT ... INTO 구문을 자주 묻는다. 전체 문법을 완벽히 외우기보다 뼈대를 기억하는 것이 좋다.",
+    "difficulty": "실전",
+    "sourceNote": "절차형 SQL 반복 출제 개념 기반"
+  },
+  {
+    "id": "SQL-09",
+    "type": "sql",
+    "topic": "NULL 처리와 정렬",
+    "question": "BOARD(board_id, title, deleted_at) 테이블에서 삭제되지 않은 글만 조회하고 board_id 내림차순으로 정렬하는 SQL을 작성하시오.",
+    "answer": "SELECT board_id, title\nFROM BOARD\nWHERE deleted_at IS NULL\nORDER BY board_id DESC;",
+    "explanation": "NULL 비교는 = 이 아니라 IS NULL / IS NOT NULL 을 사용해야 한다. 정렬은 ORDER BY 컬럼 DESC로 표현한다.",
+    "difficulty": "입문",
+    "sourceNote": "기본 조회 + NULL 처리 패턴 반영"
+  },
+  {
+    "id": "SQL-10",
+    "type": "sql",
+    "topic": "관계대수의 SQL 변환",
+    "question": "학생 테이블 STUDENT(student_id, name, dept) 에서 dept가 'SW'인 학생의 이름만 조회하는 SQL을 작성하시오.",
+    "answer": "SELECT name\nFROM STUDENT\nWHERE dept = 'SW';",
+    "explanation": "관계대수의 선택과 투영을 SQL로 옮기는 기본 문제다. WHERE로 행을 줄이고 SELECT로 필요한 컬럼만 남긴다.",
+    "difficulty": "입문",
+    "sourceNote": "2025 후기에서 언급된 관계대수/프로젝션 유형 반영"
+  },
+  {
+    "id": "JAVA-01",
+    "type": "java",
+    "topic": "오버라이딩과 static",
+    "question": "다음 설명 중 옳은 내용을 쓰시오.\n부모 클래스의 static 메서드와 같은 시그니처를 자식 클래스에 작성했을 때 이것은 오버라이딩인가, 숨김(hiding)인가?",
+    "answer": "숨김(hiding)이다. static 메서드는 오버라이딩되지 않는다.",
+    "explanation": "2025년 수험 후기에서 static이 붙은 메서드를 오버라이딩으로 착각하기 쉬웠다는 언급이 있었다. instance 메서드만 동적 바인딩 대상이다.",
+    "difficulty": "기본",
+    "sourceNote": "2025년 2회 후기의 Java 오버라이딩 포인트 반영"
+  },
+  {
+    "id": "JAVA-02",
+    "type": "java",
+    "topic": "상속과 다형성",
+    "question": "다음 코드의 실행 결과를 쓰시오.\n\nclass Parent {\n  void print() { System.out.print(\"P\"); }\n}\nclass Child extends Parent {\n  @Override\n  void print() { System.out.print(\"C\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Parent obj = new Child();\n    obj.print();\n  }\n}",
+    "answer": "C",
+    "explanation": "참조형은 Parent지만 실제 객체는 Child이므로 오버라이딩된 메서드가 실행된다. 다형성 기본 문제다.",
+    "difficulty": "입문",
+    "sourceNote": "Java 상속/다형성 반복 출제 패턴 반영"
+  },
+  {
+    "id": "JAVA-03",
+    "type": "java",
+    "topic": "예외 처리 순서",
+    "question": "catch 블록의 배치 원칙을 한 줄로 설명하시오.",
+    "answer": "범위가 좁은 예외(자식 예외)부터, 범위가 넓은 예외(부모 예외) 순서로 작성해야 한다.",
+    "explanation": "Exception을 먼저 쓰면 뒤의 세부 예외 catch 블록이 도달 불가능해져 컴파일 오류가 난다. 실기에서 개념형으로 자주 나온다.",
+    "difficulty": "기본",
+    "sourceNote": "Java 예외 처리 기본 개념 반영"
+  },
+  {
+    "id": "JAVA-04",
+    "type": "java",
+    "topic": "HashSet",
+    "question": "다음 코드의 실행 결과를 쓰시오.\n\nimport java.util.*;\npublic class Main {\n  public static void main(String[] args) {\n    Set<String> set = new HashSet<>();\n    set.add(\"SQL\");\n    set.add(\"SQL\");\n    set.add(\"JAVA\");\n    System.out.print(set.size());\n  }\n}",
+    "answer": "2",
+    "explanation": "HashSet은 중복을 허용하지 않는다. 중복 제거와 컬렉션 기본 성질은 실기에서 자주 보이는 Java 영역이다.",
+    "difficulty": "입문",
+    "sourceNote": "프로그래밍 언어 기본 문제 패턴 반영"
+  },
+  {
+    "id": "JAVA-05",
+    "type": "java",
+    "topic": "String 비교",
+    "question": "문자열의 내용 비교를 할 때 == 대신 주로 어떤 메서드를 사용해야 하는가?",
+    "answer": "equals()",
+    "explanation": "== 는 참조 비교이고, 문자열 내용 비교는 equals() 를 사용한다. 비전공자가 자주 헷갈리는 포인트다.",
+    "difficulty": "입문",
+    "sourceNote": "Java 기초 문법 반복 학습용"
+  },
+  {
+    "id": "JAVA-06",
+    "type": "java",
+    "topic": "생성자 호출 순서",
+    "question": "다음 코드의 실행 결과를 쓰시오.\n\nclass A {\n  A() { System.out.print(\"A\"); }\n}\nclass B extends A {\n  B() { System.out.print(\"B\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    new B();\n  }\n}",
+    "answer": "AB",
+    "explanation": "자식 객체를 생성하면 부모 생성자가 먼저 호출된다. 생성자 호출 순서는 기초지만 실수하기 쉬운 영역이다.",
+    "difficulty": "입문",
+    "sourceNote": "Java 상속 기본 흐름 반영"
+  },
+  {
+    "id": "JAVA-07",
+    "type": "java",
+    "topic": "인터페이스",
+    "question": "인터페이스를 사용하는 가장 큰 이유를 한 문장으로 설명하시오.",
+    "answer": "구현보다 규약을 기준으로 코드를 설계해 다형성과 교체 가능성을 높이기 위해서다.",
+    "explanation": "실기에서는 문법 자체보다 interface가 어떤 역할을 하는지 묻는 서술형/개념형이 섞여 나올 수 있다.",
+    "difficulty": "기본",
+    "sourceNote": "객체지향 설계 기본 개념 반영"
+  },
+  {
+    "id": "JAVA-08",
+    "type": "java",
+    "topic": "람다식",
+    "question": "람다식은 주로 어떤 종류의 인터페이스와 함께 사용되는가?",
+    "answer": "함수형 인터페이스(Function interface)",
+    "explanation": "메서드가 하나만 있는 인터페이스가 람다식 대상이다. 2025년 후기에서 람다식 출제가 언급되어 반영했다.",
+    "difficulty": "기본",
+    "sourceNote": "2025년 2회 후기의 Java 람다식 언급 반영"
+  },
+  {
+    "id": "JAVA-09",
+    "type": "java",
+    "topic": "for-each",
+    "question": "다음 코드의 실행 결과를 쓰시오.\n\npublic class Main {\n  public static void main(String[] args) {\n    int sum = 0;\n    int[] arr = {2, 4, 6};\n    for (int n : arr) {\n      sum += n;\n    }\n    System.out.print(sum);\n  }\n}",
+    "answer": "12",
+    "explanation": "향상된 for문과 누적 합 계산은 자주 나오는 기본 패턴이다. 복잡한 문법보다 흐름 파악을 묻는 문제로 접근하면 된다.",
+    "difficulty": "입문",
+    "sourceNote": "비전공자용 Java 계산 문제 반영"
+  },
+  {
+    "id": "JAVA-10",
+    "type": "java",
+    "topic": "추상 클래스",
+    "question": "추상 클래스와 일반 클래스의 차이를 한 줄로 설명하시오.",
+    "answer": "추상 클래스는 미완성 메서드(추상 메서드)를 포함할 수 있고 직접 객체를 생성할 수 없다.",
+    "explanation": "상속, 다형성과 함께 자주 묶이는 기본 개념이다. 정의를 짧게 쓰는 연습이 서술형 대비에 도움된다.",
+    "difficulty": "기본",
+    "sourceNote": "객체지향 핵심 개념 반복 출제 기반"
+  },
+  {
+    "id": "DESC-01",
+    "type": "descriptive",
+    "topic": "응집도와 결합도",
+    "question": "모듈의 품질을 높이려면 응집도와 결합도를 어떤 방향으로 가져가야 하는지 쓰고, 그 이유를 간단히 설명하시오.",
+    "answer": "응집도는 높게, 결합도는 낮게 가져가야 한다.\n모듈 내부 기능은 밀접하고 모듈 간 의존성은 적을수록 유지보수와 재사용이 쉬워진다.",
+    "explanation": "응집도/결합도는 2021년 이후 꾸준히 핵심 이론 파트로 언급된다. 답은 방향성과 이유를 함께 쓰는 형태로 준비하면 좋다.",
+    "difficulty": "기본",
+    "sourceNote": "2021~2025 반복 출제 이론 주제 반영"
+  },
+  {
+    "id": "DESC-02",
+    "type": "descriptive",
+    "topic": "ACID",
+    "question": "트랜잭션의 ACID 4가지 속성을 각각 한 줄씩 설명하시오.",
+    "answer": "원자성(Atomicity): 전부 수행되거나 전부 수행되지 않아야 한다.\n일관성(Consistency): 트랜잭션 전후에 데이터 무결성이 유지되어야 한다.\n격리성(Isolation): 동시에 실행되는 트랜잭션이 서로 간섭하지 않아야 한다.\n영속성(Durability): 커밋된 결과는 장애 후에도 보존되어야 한다.",
+    "explanation": "트랜잭션 이론과 SQL 실무 문제가 함께 나오는 경우가 많다. 서술형에서는 한 속성씩 짧게 정의하는 연습이 중요하다.",
+    "difficulty": "기본",
+    "sourceNote": "데이터베이스 반복 출제 개념 기반"
+  },
+  {
+    "id": "DESC-03",
+    "type": "descriptive",
+    "topic": "정규화",
+    "question": "정규화를 수행하는 주된 목적을 설명하고, 1정규형에서 3정규형까지의 큰 흐름을 요약하시오.",
+    "answer": "정규화의 목적은 데이터 중복과 이상 현상을 줄여 무결성을 높이는 것이다.\n1정규형은 원자값만 가지도록 하고, 2정규형은 부분 함수 종속을 제거하며, 3정규형은 이행 함수 종속을 제거한다.",
+    "explanation": "정규화는 실기에서 거의 빠지지 않는 핵심 주제다. 용어 정의와 단계별 핵심 차이를 함께 묻는 변형이 많다.",
+    "difficulty": "실전",
+    "sourceNote": "2023~2025 데이터 모델링/정규화 경향 반영"
+  },
+  {
+    "id": "DESC-04",
+    "type": "descriptive",
+    "topic": "테스트 기법",
+    "question": "블랙박스 테스트와 화이트박스 테스트의 차이를 간단히 설명하시오.",
+    "answer": "블랙박스 테스트는 내부 코드 구조를 보지 않고 기능과 입력/출력 중심으로 검증한다.\n화이트박스 테스트는 내부 로직과 경로를 기준으로 테스트한다.",
+    "explanation": "테스트 파트는 복원 문제 분석에서 비중이 꾸준했다. 두 용어를 비교하는 문제는 짧아 보여도 자주 나온다.",
+    "difficulty": "기본",
+    "sourceNote": "2021~2025 테스트 영역 빈출 주제 반영"
+  },
+  {
+    "id": "DESC-05",
+    "type": "descriptive",
+    "topic": "디자인 패턴",
+    "question": "전략(Strategy) 패턴이 적합한 상황을 한 가지 예와 함께 설명하시오.",
+    "answer": "동일한 기능의 여러 알고리즘을 상황에 따라 바꿔 써야 할 때 전략 패턴이 적합하다.\n예를 들어 결제 방식(카드, 계좌이체, 간편결제)을 런타임에 교체할 수 있게 설계할 때 사용한다.",
+    "explanation": "패턴 이름만 외우기보다 어떤 문제를 해결하는 패턴인지 설명할 수 있어야 서술형에 대응하기 쉽다.",
+    "difficulty": "실전",
+    "sourceNote": "디자인 패턴 반복 학습 포인트 반영"
+  },
+  {
+    "id": "DESC-06",
+    "type": "descriptive",
+    "topic": "네트워크",
+    "question": "브로드캐스트 주소란 무엇인지 설명하시오.",
+    "answer": "같은 네트워크에 속한 모든 호스트에게 동시에 데이터를 보내기 위한 주소이다.",
+    "explanation": "2025년 후기에서 IP 네트워크와 브로드캐스팅 문제가 다시 나왔다는 언급이 있었다. 네트워크 용어를 짧게 정의하는 연습이 필요하다.",
+    "difficulty": "기본",
+    "sourceNote": "2025년 2회 후기의 네트워크 언급 반영"
+  },
+  {
+    "id": "DESC-07",
+    "type": "descriptive",
+    "topic": "UML",
+    "question": "UML에서 연관(Association)과 포함(Composition)의 차이를 간단히 설명하시오.",
+    "answer": "연관은 객체 간 일반적인 관계를 의미하고, 포함은 전체-부분 관계 중에서도 부분 객체의 생명주기가 전체 객체에 강하게 종속되는 관계를 의미한다.",
+    "explanation": "UML은 크게 비중이 높지 않아도 용어 비교형 문제로 종종 나온다. 핵심 차이만 짧게 쓰는 연습이 좋다.",
+    "difficulty": "기본",
+    "sourceNote": "UML/모델링 개념 정리 기반"
+  },
+  {
+    "id": "DESC-08",
+    "type": "descriptive",
+    "topic": "운영체제 스케줄링",
+    "question": "라운드 로빈(Round Robin) 스케줄링의 특징을 한 줄로 설명하시오.",
+    "answer": "각 프로세스에 동일한 시간 할당량을 순환 방식으로 주어 공정성을 높이는 선점형 스케줄링 방식이다.",
+    "explanation": "2025년 후기에서 스케줄링을 전혀 몰라 틀렸다는 언급이 있었다. 정의를 한 줄로 정리해 두면 점수를 챙기기 좋다.",
+    "difficulty": "기본",
+    "sourceNote": "2025년 2회 후기의 스케줄링 언급 반영"
+  },
+  {
+    "id": "DESC-09",
+    "type": "descriptive",
+    "topic": "DevOps / CI-CD",
+    "question": "CI와 CD를 각각 간단히 설명하시오.",
+    "answer": "CI는 지속적 통합으로, 코드 변경을 자주 통합하고 자동 빌드/테스트하는 것이다.\nCD는 지속적 제공 또는 지속적 배포로, 검증된 결과물을 운영 반영 직전 또는 운영까지 자동화하는 것이다.",
+    "explanation": "최근 실기에서는 전통 이론뿐 아니라 개발 프로세스 개념도 섞여 나온다. 약어 의미와 목적을 같이 기억하자.",
+    "difficulty": "기본",
+    "sourceNote": "실무형 소프트웨어 개발 프로세스 개념 반영"
+  },
+  {
+    "id": "DESC-10",
+    "type": "descriptive",
+    "topic": "요구사항 품질",
+    "question": "좋은 요구사항이 가져야 할 특성 두 가지 이상을 쓰시오.",
+    "answer": "예시: 명확성, 완전성, 일관성, 추적 가능성, 검증 가능성",
+    "explanation": "요구사항 파트는 짧은 이론 문제로 자주 변형된다. 여러 특성을 한 번에 떠올릴 수 있게 묶어서 학습하는 편이 좋다.",
+    "difficulty": "입문",
+    "sourceNote": "요구사항 분석 파트의 단답형 대비"
+  },
+  {
+    "id": "CONCEPT-01",
+    "type": "concept",
+    "topic": "OSI 7계층",
+    "question": "패킷의 라우팅과 가장 직접적으로 관련된 OSI 7계층은 어느 계층인가?",
+    "answer": "네트워크 계층",
+    "explanation": "라우팅, IP 주소 처리는 네트워크 계층 핵심 역할이다. 계층별 역할 구분은 단답형으로 자주 출제된다.",
+    "difficulty": "입문",
+    "sourceNote": "네트워크 기본 개념 반복 출제 기반"
+  },
+  {
+    "id": "CONCEPT-02",
+    "type": "concept",
+    "topic": "관계대수",
+    "question": "릴레이션에서 특정 열만 뽑아내는 연산을 무엇이라고 하는가?",
+    "answer": "투영(Projection)",
+    "explanation": "행을 선택하면 선택(Selection), 열을 선택하면 투영(Projection)이다. 관계대수와 SQL 연결 포인트라서 중요하다.",
+    "difficulty": "입문",
+    "sourceNote": "2025 후기의 프로젝션 언급 반영"
+  },
+  {
+    "id": "CONCEPT-03",
+    "type": "concept",
+    "topic": "테스트 기법",
+    "question": "입력값의 최솟값, 최댓값, 경계 근처 값을 중점적으로 확인하는 테스트 기법은 무엇인가?",
+    "answer": "경계값 분석(Boundary Value Analysis)",
+    "explanation": "블랙박스 테스트 대표 기법이다. 시험에서는 용어와 간단한 예를 연결해 묻는 경우가 많다.",
+    "difficulty": "기본",
+    "sourceNote": "테스트 파트 빈출 기법 반영"
+  },
+  {
+    "id": "CONCEPT-04",
+    "type": "concept",
+    "topic": "보안",
+    "question": "암호화키와 복호화키가 서로 다른 암호화 방식은 무엇인가?",
+    "answer": "비대칭키 암호화",
+    "explanation": "대칭키/비대칭키 차이는 보안 파트의 기본 단답 문제로 자주 사용된다.",
+    "difficulty": "입문",
+    "sourceNote": "보안 기초 개념 복습용"
+  },
+  {
+    "id": "CONCEPT-05",
+    "type": "concept",
+    "topic": "정규화",
+    "question": "복합키의 일부에만 종속되는 속성이 존재할 때 이를 무엇이라 하는가?",
+    "answer": "부분 함수 종속",
+    "explanation": "2정규형과 바로 연결되는 개념이다. 정규화는 단계 이름보다 종속 개념을 같이 알아야 문제 풀이가 쉬워진다.",
+    "difficulty": "기본",
+    "sourceNote": "정규화 반복 출제 개념 기반"
+  },
+  {
+    "id": "CONCEPT-06",
+    "type": "concept",
+    "topic": "객체지향",
+    "question": "객체지향의 4대 특성 중 기존 클래스를 기반으로 새로운 클래스를 만드는 특성은 무엇인가?",
+    "answer": "상속",
+    "explanation": "캡슐화, 상속, 다형성, 추상화는 기본이지만 자주 섞어서 물어본다. 정의를 짧게 정리해 두면 좋다.",
+    "difficulty": "입문",
+    "sourceNote": "Java/객체지향 기초 개념 반영"
+  },
+  {
+    "id": "CONCEPT-07",
+    "type": "concept",
+    "topic": "프로세스 상태",
+    "question": "CPU를 할당받아 실제로 실행 중인 프로세스 상태를 무엇이라 하는가?",
+    "answer": "Running",
+    "explanation": "Ready, Running, Waiting 상태 구분은 운영체제 기초 문제로 자주 등장한다.",
+    "difficulty": "입문",
+    "sourceNote": "운영체제 기본 개념 복습용"
+  },
+  {
+    "id": "CONCEPT-08",
+    "type": "concept",
+    "topic": "소프트웨어 아키텍처",
+    "question": "클라이언트가 요청을 보내고 서버가 응답을 반환하는 가장 대표적인 구조는 무엇인가?",
+    "answer": "클라이언트-서버(Client-Server) 구조",
+    "explanation": "아키텍처 용어는 짧게 보이지만 다른 개념과 함께 묶여 나오기 쉬운 기본 이론이다.",
+    "difficulty": "입문",
+    "sourceNote": "기본 시스템 구조 개념 반영"
+  },
+  {
+    "id": "CONCEPT-09",
+    "type": "concept",
+    "topic": "NoSQL",
+    "question": "고정된 스키마보다 유연한 확장성과 분산 저장에 강점을 가진 데이터 저장소 범주는 무엇인가?",
+    "answer": "NoSQL",
+    "explanation": "RDBMS와 NoSQL 비교는 최근 개념 문제에서 자주 정리되는 주제다. 차이를 한 줄로 설명할 수 있으면 좋다.",
+    "difficulty": "기본",
+    "sourceNote": "데이터 저장 기술 비교 개념 반영"
+  },
+  {
+    "id": "CONCEPT-10",
+    "type": "concept",
+    "topic": "애자일",
+    "question": "스프린트가 끝난 뒤 팀이 일한 방식을 돌아보고 개선점을 찾는 회의를 무엇이라고 하는가?",
+    "answer": "회고(Retrospective)",
+    "explanation": "애자일 용어는 짧은 단답형으로 묻기 좋다. 스프린트 계획, 데일리 스크럼, 리뷰, 회고를 세트로 묶어 기억하자.",
+    "difficulty": "기본",
+    "sourceNote": "개발 프로세스 최신 개념 반영"
+  }
+]
